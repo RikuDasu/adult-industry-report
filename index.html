@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adult Industry Dashboard 2025</title>
+<title>アダルト産業ダッシュボード 2025</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
@@ -36,7 +36,6 @@
     min-height: 100vh;
   }
 
-  /* ===== HEADER BAR ===== */
   .header-bar {
     display: flex;
     align-items: center;
@@ -81,11 +80,44 @@
   .key-stat .lbl {
     font-size: 10px;
     color: var(--text-muted);
-    text-transform: uppercase;
     letter-spacing: 0.03em;
   }
 
-  /* ===== DASHBOARD GRID ===== */
+  /* TAB BAR */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    padding: 0 8px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-bar::-webkit-scrollbar { height: 2px; }
+  .tab-bar::-webkit-scrollbar-thumb { background: var(--border); }
+  .tab-btn {
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab-btn:hover { color: var(--text-dim); }
+  .tab-btn.active {
+    color: var(--pink);
+    border-bottom-color: var(--pink);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* DASHBOARD GRID */
   .dashboard {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -130,16 +162,10 @@
   .badge-green { background: rgba(16,185,129,0.15); color: var(--green); }
   .badge-gold { background: rgba(245,158,11,0.15); color: var(--gold); }
 
-  /* Spanning */
   .span-2 { grid-column: span 2; }
   .span-3 { grid-column: span 3; }
-  .span-row-2 { grid-row: span 2; }
 
-  /* ===== WHY CARD ===== */
-  .why-list {
-    list-style: none;
-    font-size: 12px;
-  }
+  .why-list { list-style: none; font-size: 12px; }
   .why-list li {
     padding: 5px 0;
     border-bottom: 1px solid rgba(255,255,255,0.03);
@@ -150,86 +176,45 @@
   .why-list li:last-child { border-bottom: none; }
   .why-num {
     flex-shrink: 0;
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     border-radius: 4px;
     background: rgba(255,51,102,0.15);
     color: var(--pink);
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
   }
   .why-list strong { color: var(--text); }
   .why-list span { color: var(--text-dim); }
 
-  /* ===== SUPPLY CHAIN FLOWS ===== */
   .flow-chain {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin: 6px 0;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin: 6px 0;
   }
   .flow-node {
     padding: 3px 7px;
     background: var(--bg-card-alt);
     border: 1px solid var(--border);
     border-radius: 4px;
-    font-size: 10px;
-    color: var(--text);
-    white-space: nowrap;
-    font-weight: 500;
+    font-size: 10px; color: var(--text);
+    white-space: nowrap; font-weight: 500;
   }
   .flow-node.highlight-pink { border-color: rgba(255,51,102,0.3); background: rgba(255,51,102,0.08); }
   .flow-node.highlight-purple { border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08); }
   .flow-node.highlight-cyan { border-color: rgba(6,182,212,0.3); background: rgba(6,182,212,0.08); }
   .flow-node.highlight-green { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.08); }
-  .flow-arrow {
-    color: var(--text-muted);
-    font-size: 10px;
-    padding: 0 1px;
-  }
-  .flow-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-  .flow-meta {
-    font-size: 10px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-  .supply-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .flow-arrow { color: var(--text-muted); font-size: 10px; padding: 0 1px; }
+  .flow-label { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .flow-meta { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+  .supply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .supply-item {
-    padding: 10px;
-    background: var(--bg-card-alt);
-    border-radius: 6px;
-    border: 1px solid var(--border);
+    padding: 10px; background: var(--bg-card-alt);
+    border-radius: 6px; border: 1px solid var(--border);
   }
 
-  /* ===== TABLES ===== */
-  .mini-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-  }
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 11px; }
   .mini-table th {
-    text-align: left;
-    padding: 5px 6px;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    text-align: left; padding: 5px 6px; font-size: 10px;
+    font-weight: 600; color: var(--text-muted);
+    letter-spacing: 0.03em; border-bottom: 1px solid var(--border); white-space: nowrap;
   }
   .mini-table td {
     padding: 5px 6px;
@@ -244,123 +229,98 @@
   .mini-table .val-cyan { color: var(--cyan); font-weight: 700; }
   .mini-table .val-purple { color: var(--purple); font-weight: 700; }
 
-  /* ===== CHARTS ===== */
+  /* 10-year tables */
+  .decade-header {
+    font-size: 12px; font-weight: 700; color: var(--text-dim);
+    margin: 16px 0 8px 0; padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.03em;
+  }
+  .decade-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .decade-table th {
+    text-align: left; padding: 6px 8px; font-size: 10px;
+    font-weight: 600; color: var(--text-muted);
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+    position: sticky; top: 0; background: var(--bg-card);
+  }
+  .decade-table td {
+    padding: 5px 8px; color: var(--text-dim); font-size: 11px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .decade-table tbody tr:nth-child(odd) { background: rgba(255,255,255,0.015); }
+  .decade-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.035); }
+  .decade-table .name { color: var(--text); font-weight: 600; }
+
   .chart-box { position: relative; width: 100%; }
   .chart-box canvas { width: 100% !important; }
 
-  /* ===== STARS ===== */
   .stars { color: var(--gold); letter-spacing: 1px; font-size: 11px; }
   .stars-dim { color: var(--text-muted); letter-spacing: 1px; font-size: 11px; }
 
-  /* ===== TIMELINE HORIZONTAL ===== */
-  .h-timeline {
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
+  .h-timeline { display: flex; gap: 0; overflow-x: auto; padding-bottom: 4px; }
   .h-timeline::-webkit-scrollbar { height: 3px; }
   .h-timeline::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   .h-tl-item {
-    flex: 0 0 auto;
-    min-width: 130px;
-    padding: 8px 10px;
-    border-left: 2px solid var(--pink);
-    position: relative;
+    flex: 0 0 auto; min-width: 130px; padding: 8px 10px;
+    border-left: 2px solid var(--pink); position: relative;
   }
   .h-tl-item:nth-child(even) { border-left-color: var(--purple); }
   .h-tl-item:nth-child(3n) { border-left-color: var(--cyan); }
-  .h-tl-year {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--pink);
-    margin-bottom: 2px;
-  }
+  .h-tl-year { font-size: 10px; font-weight: 700; color: var(--pink); margin-bottom: 2px; }
   .h-tl-item:nth-child(even) .h-tl-year { color: var(--purple); }
   .h-tl-item:nth-child(3n) .h-tl-year { color: var(--cyan); }
-  .h-tl-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-  .h-tl-desc {
-    font-size: 10px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
+  .h-tl-title { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .h-tl-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
 
-  /* ===== INSIGHT BOX ===== */
   .insight {
     background: linear-gradient(135deg, rgba(255,51,102,0.06), rgba(168,85,247,0.06));
     border: 1px solid rgba(255,51,102,0.12);
-    border-radius: 6px;
-    padding: 12px;
+    border-radius: 6px; padding: 12px;
   }
   .insight h4 {
-    font-size: 12px;
-    font-weight: 700;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 12px; font-weight: 700;
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     margin-bottom: 6px;
   }
-  .insight p, .insight li {
-    font-size: 11px;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-  .insight ul {
-    padding-left: 14px;
-    margin-top: 4px;
-  }
+  .insight p, .insight li { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
+  .insight ul { padding-left: 14px; margin-top: 4px; }
   .insight li { margin-bottom: 2px; }
 
-  /* ===== FUTURE CARD ===== */
-  .future-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  .future-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .future-item {
-    padding: 10px;
-    background: var(--bg-card-alt);
-    border-radius: 6px;
-    border: 1px solid var(--border);
+    padding: 10px; background: var(--bg-card-alt);
+    border-radius: 6px; border: 1px solid var(--border);
   }
-  .future-item h5 {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-  .future-item p {
-    font-size: 10px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
+  .future-item h5 { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .future-item p { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
   .future-tag {
-    display: inline-block;
-    font-size: 9px;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    display: inline-block; font-size: 9px; padding: 1px 6px;
+    border-radius: 3px; font-weight: 600; margin-bottom: 4px;
   }
 
-  /* ===== FOOTER ===== */
+  /* Section inside tabs */
+  .tab-section { padding: 8px; max-width: 1600px; margin: 0 auto; }
+  .section-title {
+    font-size: 14px; font-weight: 700; color: var(--text);
+    margin: 12px 0 8px 0; padding-left: 8px;
+    border-left: 3px solid var(--pink);
+  }
+  .section-title.purple-border { border-left-color: var(--purple); }
+  .section-title.cyan-border { border-left-color: var(--cyan); }
+  .section-title.green-border { border-left-color: var(--green); }
+  .section-title.gold-border { border-left-color: var(--gold); }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .detail-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
   .footer {
-    text-align: center;
-    padding: 10px;
-    font-size: 10px;
-    color: var(--text-muted);
-    border-top: 1px solid var(--border);
+    text-align: center; padding: 10px; font-size: 10px;
+    color: var(--text-muted); border-top: 1px solid var(--border);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 1100px) {
     .dashboard { grid-template-columns: 1fr 1fr; }
     .span-3 { grid-column: span 2; }
+    .detail-grid-3 { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 700px) {
     .dashboard { grid-template-columns: 1fr; }
@@ -368,96 +328,90 @@
     .header-bar { flex-direction: column; align-items: flex-start; }
     .key-stats { width: 100%; }
     .key-stat { flex: 1; min-width: 80px; }
-    .supply-grid { grid-template-columns: 1fr; }
-    .future-grid { grid-template-columns: 1fr; }
+    .supply-grid, .future-grid, .detail-grid, .detail-grid-3 { grid-template-columns: 1fr; }
+    .tab-btn { padding: 8px 12px; font-size: 11px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER BAR ===== -->
+<!-- HEADER -->
 <div class="header-bar">
   <div style="display:flex;align-items:baseline;gap:4px;">
-    <span class="title">Adult Industry Dashboard</span>
-    <span class="subtitle">Market Research 2025 | Deep-Dive Analysis</span>
+    <span class="title">アダルト産業ダッシュボード</span>
+    <span class="subtitle">市場調査 2025 | 詳細分析</span>
   </div>
   <div class="key-stats">
     <div class="key-stat">
       <div class="val">$490B+</div>
-      <div class="lbl">Market Size 2024</div>
+      <div class="lbl">2024年 市場規模</div>
     </div>
     <div class="key-stat">
       <div class="val">CAGR 9%</div>
-      <div class="lbl">Growth Rate</div>
+      <div class="lbl">成長率</div>
     </div>
     <div class="key-stat">
       <div class="val">$1.12T</div>
-      <div class="lbl">2037 Projection</div>
+      <div class="lbl">2037年 予測</div>
     </div>
     <div class="key-stat">
       <div class="val">305M</div>
-      <div class="lbl">OnlyFans Users</div>
+      <div class="lbl">OnlyFans利用者</div>
     </div>
   </div>
 </div>
 
-<!-- ===== DASHBOARD GRID ===== -->
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('overview')">概要</button>
+  <button class="tab-btn" onclick="switchTab('av')">AV・動画</button>
+  <button class="tab-btn" onclick="switchTab('goods')">グッズ製造</button>
+  <button class="tab-btn" onclick="switchTab('creator')">クリエイター経済</button>
+  <button class="tab-btn" onclick="switchTab('pharma')">医薬品</button>
+  <button class="tab-btn" onclick="switchTab('legal')">法規制・権利</button>
+  <button class="tab-btn" onclick="switchTab('payment')">決済インフラ</button>
+</div>
+
+<!-- ============ TAB: 概要 ============ -->
+<div id="tab-overview" class="tab-content active">
 <div class="dashboard">
 
-  <!-- ROW 1: Why + Revenue Chart -->
+  <!-- Why card -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title">Why This Market Exists</span>
-      <span class="card-badge badge-pink">Core Thesis</span>
+      <span class="card-title">この市場が存在する理由</span>
+      <span class="card-badge badge-pink">基本論点</span>
     </div>
     <ul class="why-list">
-      <li>
-        <span class="why-num">1</span>
-        <span><strong>基本的欲求:</strong> 性的欲求は景気に左右されない不変の需要</span>
-      </li>
-      <li>
-        <span class="why-num">2</span>
-        <span><strong>障壁 = 堀:</strong> 決済・広告・法規制の壁が既存プレイヤーを保護</span>
-      </li>
-      <li>
-        <span class="why-num">3</span>
-        <span><strong>限界費用ゼロ:</strong> デジタルコンテンツの追加配信コストがほぼゼロ</span>
-      </li>
-      <li>
-        <span class="why-num">4</span>
-        <span><strong>代替効果:</strong> 不況時は高額サービスから低コストデジタルへシフト</span>
-      </li>
-      <li>
-        <span class="why-num">5</span>
-        <span><strong>広告費ゼロ:</strong> 主要広告PFが禁止 = オーガニック集客のみで成立</span>
-      </li>
-      <li>
-        <span class="why-num">6</span>
-        <span><strong>コンプライアンス22%:</strong> 売上の22%が規制対応 = 零細排除</span>
-      </li>
+      <li><span class="why-num">1</span><span><strong>基本的欲求:</strong> 性的欲求は景気に左右されない不変の需要</span></li>
+      <li><span class="why-num">2</span><span><strong>障壁 = 堀:</strong> 決済・広告・法規制の壁が既存プレイヤーを保護</span></li>
+      <li><span class="why-num">3</span><span><strong>限界費用ゼロ:</strong> デジタルコンテンツの追加配信コストがほぼゼロ</span></li>
+      <li><span class="why-num">4</span><span><strong>代替効果:</strong> 不況時は高額サービスから低コストデジタルへシフト</span></li>
+      <li><span class="why-num">5</span><span><strong>広告費ゼロ:</strong> 主要広告PFが禁止 = オーガニック集客のみで成立</span></li>
+      <li><span class="why-num">6</span><span><strong>コンプライアンス22%:</strong> 売上の22%が規制対応 = 零細排除</span></li>
     </ul>
   </div>
 
+  <!-- Revenue chart -->
   <div class="card span-2">
     <div class="card-header">
-      <span class="card-title">Revenue Comparison</span>
-      <span class="card-badge badge-gold">Billions JPY</span>
+      <span class="card-title">売上比較</span>
+      <span class="card-badge badge-gold">億円</span>
     </div>
     <div class="chart-box">
       <canvas id="revenueChart" height="220"></canvas>
     </div>
   </div>
 
-  <!-- ROW 2: Supply Chain Flows (4 mini flows) -->
+  <!-- Supply chains -->
   <div class="card span-3">
     <div class="card-header">
-      <span class="card-title">Supply Chain Flows</span>
-      <span class="card-badge badge-purple">4 Segments</span>
+      <span class="card-title">サプライチェーンフロー</span>
+      <span class="card-badge badge-purple">4セグメント</span>
     </div>
     <div class="supply-grid">
-      <!-- AV Content -->
       <div class="supply-item">
-        <div class="flow-label">AV Content Pipeline</div>
+        <div class="flow-label">AVコンテンツ制作</div>
         <div class="flow-chain">
           <span class="flow-node highlight-pink">企画</span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node highlight-pink">キャスティング</span><span class="flow-arrow">&rarr;</span>
@@ -468,11 +422,10 @@
           <span class="flow-node highlight-pink">配信<br><small style="font-size:9px;color:var(--text-muted)">4ヶ月後</small></span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node">消費者</span>
         </div>
-        <div class="flow-meta">Cost: 企画もの100-150万 / 単体200-500万+ | Revenue: FANZA 70% / メーカー 30%</div>
+        <div class="flow-meta">費用: 企画もの100-150万 / 単体200-500万+ | 収益: FANZA 70% / メーカー 30%</div>
       </div>
-      <!-- Physical Goods -->
       <div class="supply-item">
-        <div class="flow-label">Physical Goods (Sex Toys)</div>
+        <div class="flow-label">物理商品（性玩具）</div>
         <div class="flow-chain">
           <span class="flow-node highlight-purple">原料調達</span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node highlight-purple">中国製造<br><small style="font-size:9px;color:var(--text-muted)">深圳/東莞</small></span><span class="flow-arrow">&rarr;</span>
@@ -481,11 +434,10 @@
           <span class="flow-node highlight-purple">店舗/EC</span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node">消費者</span>
         </div>
-        <div class="flow-meta">70%+ made in China | JP market: $1.7B (Asia largest) | TENGA: 84M units / 70+ countries</div>
+        <div class="flow-meta">70%以上が中国製 | 日本市場: $1.7B（アジア最大） | TENGA: 8,400万個 / 70ヶ国以上</div>
       </div>
-      <!-- Creator Economy -->
       <div class="supply-item">
-        <div class="flow-label">Creator Economy (D2C)</div>
+        <div class="flow-label">クリエイター経済（D2C）</div>
         <div class="flow-chain">
           <span class="flow-node highlight-cyan">クリエイター</span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node highlight-cyan">コンテンツ制作</span><span class="flow-arrow">&rarr;</span>
@@ -493,11 +445,10 @@
           <span class="flow-node highlight-cyan">決済処理<br><small style="font-size:9px;color:var(--text-muted)">手数料10-20%</small></span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node">ファン</span>
         </div>
-        <div class="flow-meta">OF: $7.22B GR / 4.12M creators / 305M fans | 上位1%が収益の1/3を獲得</div>
+        <div class="flow-meta">OF: $7.22B 総売上 / 412万クリエイター / 3.05億ファン | 上位1%が収益の1/3を獲得</div>
       </div>
-      <!-- Pharma (ED) -->
       <div class="supply-item">
-        <div class="flow-label">ED Pharma Supply Chain</div>
+        <div class="flow-label">ED治療薬サプライチェーン</div>
         <div class="flow-chain">
           <span class="flow-node highlight-green">原薬(API)<br><small style="font-size:9px;color:var(--text-muted)">印/中</small></span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node highlight-green">国内製剤化<br><small style="font-size:9px;color:var(--text-muted)">GMP準拠</small></span><span class="flow-arrow">&rarr;</span>
@@ -506,16 +457,16 @@
           <span class="flow-node highlight-green">OTC販売<br><small style="font-size:9px;color:var(--text-muted)">2025~</small></span><span class="flow-arrow">&rarr;</span>
           <span class="flow-node">患者</span>
         </div>
-        <div class="flow-meta">Global $30B | Viagra 2014特許切 &rarr; 8社GE | Cialis 2025 OTC化 | DMMクリニック x FANZA synergy</div>
+        <div class="flow-meta">世界$30B | バイアグラ2014年特許切 &rarr; 8社GE | シアリス2025年OTC化 | DMMクリニック x FANZA相乗効果</div>
       </div>
     </div>
   </div>
 
-  <!-- ROW 3: Barrier Radar + Platform Economics -->
+  <!-- Barrier radar + Platform economics -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title">Barriers to Entry</span>
-      <span class="card-badge badge-pink">Radar</span>
+      <span class="card-title">参入障壁</span>
+      <span class="card-badge badge-pink">レーダー</span>
     </div>
     <div class="chart-box">
       <canvas id="barrierChart" height="230"></canvas>
@@ -524,387 +475,46 @@
 
   <div class="card span-2">
     <div class="card-header">
-      <span class="card-title">Platform Economics</span>
-      <span class="card-badge badge-cyan">Take Rate Comparison</span>
+      <span class="card-title">プラットフォーム経済</span>
+      <span class="card-badge badge-cyan">手数料比較</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <div>
         <table class="mini-table">
-          <thead>
-            <tr><th>Platform</th><th>Take Rate</th><th>Creator</th><th>Note</th></tr>
-          </thead>
+          <thead><tr><th>プラットフォーム</th><th>手数料</th><th>クリエイター</th><th>備考</th></tr></thead>
           <tbody>
-            <tr>
-              <td class="name">FANZA (動画)</td>
-              <td class="val-pink">70-90%</td>
-              <td>10-30%</td>
-              <td>大手30%, 中小10-20%</td>
-            </tr>
-            <tr>
-              <td class="name">FANZA (同人)</td>
-              <td class="val-pink">~20%</td>
-              <td>80%~</td>
-              <td>4,400円以上で卸80%</td>
-            </tr>
-            <tr>
-              <td class="name">OnlyFans</td>
-              <td class="val-purple">20%</td>
-              <td>80%</td>
-              <td>$7.22B GR, $684M profit</td>
-            </tr>
-            <tr>
-              <td class="name">myFans</td>
-              <td class="val-purple">17.5%</td>
-              <td>82.5%</td>
-              <td>+ユーザー5% = 実質22.5%</td>
-            </tr>
-            <tr>
-              <td class="name">Fansly</td>
-              <td class="val-purple">20%</td>
-              <td>80%</td>
-              <td>OF競合</td>
-            </tr>
-            <tr>
-              <td class="name">Fantia</td>
-              <td class="val-green">10%</td>
-              <td>90%</td>
-              <td>pixiv系列</td>
-            </tr>
-            <tr>
-              <td class="name">Patreon</td>
-              <td class="val-green">8-12%</td>
-              <td>88-92%</td>
-              <td>NSFW制限あり</td>
-            </tr>
+            <tr><td class="name">FANZA（動画）</td><td class="val-pink">70-90%</td><td>10-30%</td><td>大手30%, 中小10-20%</td></tr>
+            <tr><td class="name">FANZA（同人）</td><td class="val-pink">~20%</td><td>80%~</td><td>4,400円以上で卸80%</td></tr>
+            <tr><td class="name">OnlyFans</td><td class="val-purple">20%</td><td>80%</td><td>$7.22B 総売上, $684M利益</td></tr>
+            <tr><td class="name">myFans</td><td class="val-purple">17.5%</td><td>82.5%</td><td>+ユーザー5% = 実質22.5%</td></tr>
+            <tr><td class="name">Fansly</td><td class="val-purple">20%</td><td>80%</td><td>OF競合</td></tr>
+            <tr><td class="name">Fantia</td><td class="val-green">10%</td><td>90%</td><td>pixiv系列</td></tr>
+            <tr><td class="name">Patreon</td><td class="val-green">8-12%</td><td>88-92%</td><td>NSFW制限あり</td></tr>
           </tbody>
         </table>
       </div>
       <div>
-        <div class="chart-box">
-          <canvas id="takeRateChart" height="200"></canvas>
-        </div>
+        <div class="chart-box"><canvas id="takeRateChart" height="200"></canvas></div>
         <div style="margin-top:8px;padding:8px;background:var(--bg-card-alt);border-radius:6px;border:1px solid var(--border);">
-          <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">FANZA/DMM Dominance</div>
+          <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">FANZA/DMM 支配力</div>
           <div style="display:flex;gap:12px;font-size:10px;">
-            <div><span style="color:var(--gold);font-weight:700;">¥105B</span><br><span style="color:var(--text-muted);">FANZA年間売上</span></div>
-            <div><span style="color:var(--gold);font-weight:700;">~70%</span><br><span style="color:var(--text-muted);">JP Digital Share</span></div>
-            <div><span style="color:var(--gold);font-weight:700;">¥347.6B</span><br><span style="color:var(--text-muted);">DMMグループ全体</span></div>
+            <div><span style="color:var(--gold);font-weight:700;">¥1,050億</span><br><span style="color:var(--text-muted);">FANZA年間売上</span></div>
+            <div><span style="color:var(--gold);font-weight:700;">~70%</span><br><span style="color:var(--text-muted);">国内デジタルシェア</span></div>
+            <div><span style="color:var(--gold);font-weight:700;">¥3,476億</span><br><span style="color:var(--text-muted);">DMMグループ全体</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ROW 4: Legal & Rights -->
-  <div class="card span-3">
-    <div class="card-header">
-      <span class="card-title">Legal & Rights Framework</span>
-      <span class="card-badge badge-pink">Japan Regulation</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <table class="mini-table">
-        <thead>
-          <tr><th>Regulation</th><th>Key Rule</th><th>Penalty / Note</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="name">AV新法 (2022)</td>
-            <td>契約: 撮影1ヶ月前 / 公表: 撮影4ヶ月後 / 1年解除権</td>
-            <td>罰金・懲役 / 中小メーカー経営圧迫</td>
-          </tr>
-          <tr>
-            <td class="name">風営法</td>
-            <td>映像送信型性風俗: 営業10日前届出必須</td>
-            <td>6ヶ月以下懲役 or 100万円以下罰金</td>
-          </tr>
-          <tr>
-            <td class="name">JCRC / ソフ倫</td>
-            <td>倫理審査 (モザイク基準 = 刑法175条回避)</td>
-            <td>不通過 = FANZA配信不可</td>
-          </tr>
-          <tr>
-            <td class="name">刑法175条</td>
-            <td>わいせつ物頒布等の罪</td>
-            <td>審査機関の存在理由</td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="mini-table">
-        <thead>
-          <tr><th>Right</th><th>Belongs To</th><th>Practical Handling</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="name">著作権</td>
-            <td class="val-gold">メーカー</td>
-            <td>映画の著作物として帰属</td>
-          </tr>
-          <tr>
-            <td class="name">著作隣接権</td>
-            <td>出演者 &rarr; 契約譲渡</td>
-            <td>AV新法の解除権で上書き可</td>
-          </tr>
-          <tr>
-            <td class="name">肖像権</td>
-            <td class="val-cyan">出演者</td>
-            <td>契約で使用許諾、解除で復活</td>
-          </tr>
-          <tr>
-            <td class="name">パブリシティ権</td>
-            <td class="val-cyan">出演者</td>
-            <td>名前・写真の商業利用権利</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ROW 5: Payment Infrastructure + Recession Resistance -->
-  <div class="card span-2">
-    <div class="card-header">
-      <span class="card-title">Payment Infrastructure</span>
-      <span class="card-badge badge-gold">High-Risk</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-      <div>
-        <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:6px;">MCC Codes</div>
-        <table class="mini-table">
-          <tbody>
-            <tr><td class="name">5967</td><td>Direct Marketing</td><td class="val-pink">High</td></tr>
-            <tr><td class="name">7841</td><td>Video Rental</td><td class="val-pink">High</td></tr>
-            <tr><td class="name">5993</td><td>Adult Products</td><td class="val-pink">High</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:6px;">Chargeback Rates</div>
-        <table class="mini-table">
-          <tbody>
-            <tr><td>全業界平均</td><td class="val-green">0.60%</td></tr>
-            <tr><td class="name">アダルト業界</td><td class="val-pink">1.5-3.0%</td></tr>
-            <tr><td>許容上限</td><td class="val-gold">1.0%</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:6px;">
-          <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">Fees</div>
-          <table class="mini-table">
-            <tbody>
-              <tr><td>一般加盟店</td><td class="val-green">1.5-3.5%</td></tr>
-              <tr><td class="name">アダルト加盟店</td><td class="val-pink">3.5-6.5%</td></tr>
-              <tr><td>リザーブ</td><td class="val-gold">売上5-10%を6ヶ月</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:6px;">BRAM Program (MC)</div>
-        <ul style="font-size:10px;color:var(--text-dim);padding-left:14px;line-height:1.6;">
-          <li>年齢確認 (出演者+利用者)</li>
-          <li>同意の文書化・記録保持</li>
-          <li>コンテンツレビュー導入</li>
-          <li>第三者コンプライアンス監査</li>
-          <li>登録料: <span style="color:var(--pink);">$950</span>/provider</li>
-          <li>手数料: <span style="color:var(--pink);">10c/取引 + 10bps</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+  <!-- Key Insight + Future -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title">Recession Resistance</span>
-      <span class="card-badge badge-green">Segment Matrix</span>
-    </div>
-    <table class="mini-table">
-      <thead>
-        <tr><th>Segment</th><th>Rating</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="name">無料デジタル (広告)</td>
-          <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">有料デジタル配信</td>
-          <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">クリエイターPF</td>
-          <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">性玩具 (中低)</td>
-          <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span><span class="stars-dim">&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">ED治療薬</td>
-          <td><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">風俗サービス</td>
-          <td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
-        </tr>
-        <tr>
-          <td class="name">ライブ/店舗</td>
-          <td><span class="stars">&#9733;&#9733;</span><span class="stars-dim">&#9733;&#9733;&#9733;</span></td>
-        </tr>
-      </tbody>
-    </table>
-    <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;">
-      COVID: Pornhub <span style="color:var(--green);font-weight:700;">+39%</span> traffic (115M &rarr; 160M/day)
-    </div>
-  </div>
-
-  <!-- ROW 6: Innovation Timeline + Company Comparison -->
-  <div class="card span-3">
-    <div class="card-header">
-      <span class="card-title">Innovation Timeline</span>
-      <span class="card-badge badge-purple">Tech History</span>
-    </div>
-    <div class="h-timeline">
-      <div class="h-tl-item">
-        <div class="h-tl-year">1970-80s</div>
-        <div class="h-tl-title">VHS Victory</div>
-        <div class="h-tl-desc">VHS vs Beta戦争でアダルトがVHS採用、フォーマット戦争決着</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">1990-2000s</div>
-        <div class="h-tl-title">Online Pioneer</div>
-        <div class="h-tl-desc">オンライン課金・ストリーミング配信を最初に実装</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2005</div>
-        <div class="h-tl-title">TENGA</div>
-        <div class="h-tl-desc">セクシャルウェルネスのパラダイムシフト</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2007</div>
-        <div class="h-tl-title">Pornhub</div>
-        <div class="h-tl-desc">Tube Site + UGC + 広告モデル確立</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2016</div>
-        <div class="h-tl-title">OnlyFans</div>
-        <div class="h-tl-desc">クリエイターD2C、中間業者排除</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2018</div>
-        <div class="h-tl-title">FANZA分社化</div>
-        <div class="h-tl-desc">DMM R18 &rarr; FANZA、VR注力</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2020-22</div>
-        <div class="h-tl-title">Femtech主流化</div>
-        <div class="h-tl-desc">Womanizer/LC等がウェルネス認知拡大</div>
-      </div>
-      <div class="h-tl-item">
-        <div class="h-tl-year">2023-25</div>
-        <div class="h-tl-title">AI / VR融合</div>
-        <div class="h-tl-desc">AIコンパニオン、生成AI、VR没入体験</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ROW 7: Creator Growth Chart + Company Table -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">Creator Economy Growth</span>
-      <span class="card-badge badge-cyan">OnlyFans</span>
-    </div>
-    <div class="chart-box">
-      <canvas id="creatorChart" height="200"></canvas>
-    </div>
-    <div style="margin-top:8px;">
-      <table class="mini-table">
-        <tbody>
-          <tr><td>Gross Revenue</td><td class="val-gold">$7.22B</td><td style="font-size:10px;color:var(--green);">+9% YoY</td></tr>
-          <tr><td>Net Revenue</td><td class="val-gold">$1.41B</td><td style="font-size:10px;color:var(--green);">+8%</td></tr>
-          <tr><td>Profit</td><td class="val-gold">$684M</td><td style="font-size:10px;color:var(--green);">+4%</td></tr>
-          <tr><td>Creators</td><td class="val-cyan">4.12M</td><td style="font-size:10px;color:var(--text-muted);">Avg $131/mo</td></tr>
-          <tr><td>Valuation</td><td class="val-purple">$8B</td><td></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card span-2">
-    <div class="card-header">
-      <span class="card-title">Company Comparison</span>
-      <span class="card-badge badge-gold">Matrix</span>
-    </div>
-    <table class="mini-table">
-      <thead>
-        <tr><th>Company</th><th>Category</th><th>Revenue</th><th>Model</th><th>Moat</th><th>Reach</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="name">DMM / FANZA</td>
-          <td>総合PF</td>
-          <td class="val-gold">¥387B</td>
-          <td>定額+単品+通販</td>
-          <td>決済・規模の経済</td>
-          <td>日本</td>
-        </tr>
-        <tr>
-          <td class="name">OnlyFans</td>
-          <td>Creator PF</td>
-          <td class="val-gold">$7.2B</td>
-          <td>手数料20%</td>
-          <td>ネットワーク効果</td>
-          <td>Global</td>
-        </tr>
-        <tr>
-          <td class="name">Pornhub / Aylo</td>
-          <td>動画PF</td>
-          <td class="val-gold">$400M</td>
-          <td>広告+サブスク</td>
-          <td>規制・決済・法的</td>
-          <td>Global</td>
-        </tr>
-        <tr>
-          <td class="name">TENGA</td>
-          <td>Pleasure</td>
-          <td class="val-gold">¥10.7B</td>
-          <td>D2C製造販売</td>
-          <td>ブランド・特許</td>
-          <td>70+国</td>
-        </tr>
-        <tr>
-          <td class="name">LCラブコスメ</td>
-          <td>女性HC</td>
-          <td class="val-gold">¥7B</td>
-          <td>D2C EC特化</td>
-          <td>顧客信頼</td>
-          <td>日本</td>
-        </tr>
-        <tr>
-          <td class="name">Lovehoney Gr.</td>
-          <td>Pleasure</td>
-          <td class="val-gold">$400M+</td>
-          <td>製造+EC</td>
-          <td>特許・R&D</td>
-          <td>90+国</td>
-        </tr>
-        <tr>
-          <td class="name">myFans</td>
-          <td>Creator PF</td>
-          <td class="val-gold">数十億円</td>
-          <td>手数料17.5%</td>
-          <td>規制・決済</td>
-          <td>日本</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ROW 8: Key Insight + Future Outlook -->
-  <div class="card">
-    <div class="card-header">
-      <span class="card-title">Key Insight</span>
-      <span class="card-badge badge-pink">Thesis</span>
+      <span class="card-title">核心的洞察</span>
+      <span class="card-badge badge-pink">テーゼ</span>
     </div>
     <div class="insight">
-      <h4>Barriers = Moat</h4>
+      <h4>障壁 = 堀（モート）</h4>
       <p>参入障壁が高いからこそ、勝者は圧倒的に儲かる。</p>
       <ul>
         <li><strong>決済障壁</strong> &rarr; 独占的な決済インフラ</li>
@@ -915,16 +525,14 @@
       </ul>
     </div>
     <div style="margin-top:10px;">
-      <div class="chart-box">
-        <canvas id="recessionChart" height="150"></canvas>
-      </div>
+      <div class="chart-box"><canvas id="recessionChart" height="150"></canvas></div>
     </div>
   </div>
 
   <div class="card span-2">
     <div class="card-header">
-      <span class="card-title">Future Outlook</span>
-      <span class="card-badge badge-purple">2025+</span>
+      <span class="card-title">将来展望</span>
+      <span class="card-badge badge-purple">2025年以降</span>
     </div>
     <div class="future-grid">
       <div class="future-item">
@@ -943,17 +551,17 @@
         <p>OF/myFansモデルの進化。PF依存からの脱却、クリエイター自身がブランドを持つ時代。</p>
       </div>
       <div class="future-item">
-        <span class="future-tag badge-pink">Wellness</span>
+        <span class="future-tag badge-pink">健康</span>
         <h5>セクシャルウェルネスの正常化</h5>
         <p>Femtech成長で「健康」カテゴリ統合。大手小売チャネルでの取扱い拡大。シアリスOTC化が象徴。</p>
       </div>
       <div class="future-item">
-        <span class="future-tag badge-gold">Pharma</span>
+        <span class="future-tag badge-gold">医薬</span>
         <h5>ED治療薬のOTC化</h5>
         <p>2025年シアリスOTC承認。受診ハードル撤廃、価格競争激化、ドラッグストア新規参入。</p>
       </div>
       <div class="future-item">
-        <span class="future-tag badge-cyan">Crypto</span>
+        <span class="future-tag badge-cyan">暗号</span>
         <h5>暗号通貨決済の拡大</h5>
         <p>チャージバック不可、プライバシー保護、低手数料。カード会社リスク回避の構造的解。</p>
       </div>
@@ -961,13 +569,691 @@
   </div>
 
 </div>
+</div>
+
+<!-- ============ TAB: AV・動画 ============ -->
+<div id="tab-av" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title">AV制作パイプライン詳細</div>
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">制作工程フロー</span>
+      <span class="card-badge badge-pink">パイプライン</span>
+    </div>
+    <div class="flow-chain" style="justify-content:center;padding:12px 0;flex-wrap:wrap;">
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">企画立案<br><small style="color:var(--text-muted)">メーカー主導</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">キャスティング<br><small style="color:var(--text-muted)">プロダクション営業</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">契約締結<br><small style="color:var(--text-muted)">撮影1ヶ月前まで</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">撮影<br><small style="color:var(--text-muted)">通常1-3日</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">編集<br><small style="color:var(--text-muted)">1-2週間</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">倫理審査<br><small style="color:var(--text-muted)">JCRC/ソフ倫</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-pink" style="padding:8px 14px;font-size:12px;">配信・販売<br><small style="color:var(--text-muted)">撮影4ヶ月後以降</small></span>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+      <div style="font-size:10px;padding:6px 12px;background:var(--bg-card-alt);border-radius:4px;border:1px solid var(--border);">
+        <span style="color:var(--text-muted);">主要メーカー:</span> <span style="color:var(--text);">S1, MOODYZ, PRESTIGE, SOD</span>
+      </div>
+      <div style="font-size:10px;padding:6px 12px;background:var(--bg-card-alt);border-radius:4px;border:1px solid var(--border);">
+        <span style="color:var(--text-muted);">主要プロダクション:</span> <span style="color:var(--text);">T-POWERS, MARKS JAPAN, C-MORE</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">制作費内訳</span>
+        <span class="card-badge badge-gold">コスト構造</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>項目</th><th>企画もの</th><th>単体もの</th></tr></thead>
+        <tbody>
+          <tr><td class="name">制作費総額</td><td class="val-gold">100-150万円</td><td class="val-pink">200-500万円+</td></tr>
+          <tr><td class="name">出演料</td><td>5-15万円/本</td><td>20-400万円/本</td></tr>
+          <tr><td class="name">監督</td><td colspan="2">15-30万円/本（フリーランス主流）</td></tr>
+          <tr><td class="name">カメラ・照明・音声</td><td colspan="2">各5-15万円/日</td></tr>
+          <tr><td class="name">編集</td><td colspan="2">10-20万円/本</td></tr>
+          <tr><td class="name">スタジオ・ロケ費</td><td colspan="2">5-30万円/日</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;">
+        2000年頃は1本あたり約1,000万円 &rarr; 海賊版蔓延により年々低下 &rarr; 現在100-150万円が標準
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">収益分配構造</span>
+        <span class="card-badge badge-pink">分配率</span>
+      </div>
+      <div style="padding:10px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px;">DVD販売価格 3,000円の場合:</div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <div style="flex:7;background:rgba(255,51,102,0.15);border-radius:4px;padding:8px;text-align:center;">
+            <div style="font-size:14px;font-weight:800;color:var(--pink);">70%</div>
+            <div style="font-size:10px;color:var(--text-muted);">FANZA取り分</div>
+            <div style="font-size:12px;color:var(--text);">¥2,100</div>
+          </div>
+          <div style="flex:3;background:rgba(168,85,247,0.15);border-radius:4px;padding:8px;text-align:center;">
+            <div style="font-size:14px;font-weight:800;color:var(--purple);">30%</div>
+            <div style="font-size:10px;color:var(--text-muted);">メーカー取り分</div>
+            <div style="font-size:12px;color:var(--text);">¥900</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--text-muted);line-height:1.5;">
+          メーカー30%の内訳: 制作費回収 / 出演料支払い / 審査費用 / メーカー利益<br>
+          大手メーカーで30%、中小は10-20%のケースも<br>
+          デジタル配信: 公称手数料20%だが実質40%前後（クーポン等含む）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">業界構造: 3つの主要プレイヤー</span>
+      <span class="card-badge badge-purple">構造</span>
+    </div>
+    <table class="mini-table">
+      <thead><tr><th>プレイヤー</th><th>役割</th><th>例</th><th>資金の流れ</th></tr></thead>
+      <tbody>
+        <tr><td class="name">メーカー（版元）</td><td>企画立案、予算管理、販売・流通、ブランド管理</td><td>S1, MOODYZ, PRESTIGE, SOD</td><td class="val-gold">全予算を一括管理</td></tr>
+        <tr><td class="name">プロダクション</td><td>タレントマネジメント、キャスティング営業</td><td>T-POWERS, MARKS JAPAN, C-MORE</td><td>メーカーから受領</td></tr>
+        <tr><td class="name">制作会社</td><td>撮影・編集の実務（監督・カメラ・照明・音声）</td><td>フリーランスチーム中心</td><td>メーカーから受領</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>国内AV市場推定</th><th>FANZA売上</th><th>DVDシェア</th><th>配信シェア</th><th>主な出来事</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td>約5,000億円</td><td>非公開</td><td class="val-gold">~65%</td><td>~35%</td><td>DVD主流期、メーカー数ピーク</td></tr>
+        <tr><td class="name">2016</td><td>約4,800億円</td><td>非公開</td><td>~55%</td><td class="val-cyan">~45%</td><td>配信増加、映像倫→JCRC統合開始</td></tr>
+        <tr><td class="name">2017</td><td>約4,500億円</td><td>非公開</td><td>~45%</td><td class="val-cyan">~55%</td><td>DMM R18時代（FANZA前身）</td></tr>
+        <tr><td class="name">2018</td><td>約4,300億円</td><td class="val-gold">¥698億（推定）</td><td>~35%</td><td class="val-cyan">~65%</td><td>FANZA分社化、VR注力開始</td></tr>
+        <tr><td class="name">2019</td><td>約4,200億円</td><td>¥800億（推定）</td><td>~28%</td><td class="val-cyan">~72%</td><td>VR元年、FANZA VRシェア拡大</td></tr>
+        <tr><td class="name">2020</td><td>約4,500億円</td><td>¥950億（推定）</td><td>~22%</td><td class="val-cyan">~78%</td><td>COVID巣ごもり需要、配信急増</td></tr>
+        <tr><td class="name">2021</td><td>約4,800億円</td><td class="val-pink">¥1,050億</td><td>~18%</td><td class="val-cyan">~82%</td><td>FANZA売上ピーク、デジタル完全移行</td></tr>
+        <tr><td class="name">2022</td><td>約4,600億円</td><td>¥1,000億（推定）</td><td>~15%</td><td class="val-cyan">~85%</td><td>AV新法施行（6月）、中小メーカー打撃</td></tr>
+        <tr><td class="name">2023</td><td>約4,700億円</td><td>¥1,020億（推定）</td><td>~12%</td><td class="val-cyan">~88%</td><td>DMMグループ ¥3,476億、AI活用開始</td></tr>
+        <tr><td class="name">2024</td><td>約4,800億円</td><td>¥1,050億（推定）</td><td>~10%</td><td class="val-cyan">~90%</td><td>AI/VR拡大、クリエイターD2C加速</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ TAB: グッズ製造 ============ -->
+<div id="tab-goods" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title purple-border">グッズ製造サプライチェーン</div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">製造工程フロー（バイブレーター例）</span>
+      <span class="card-badge badge-purple">製造</span>
+    </div>
+    <div class="flow-chain" style="justify-content:center;padding:12px 0;flex-wrap:wrap;">
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">素材調達<br><small style="color:var(--text-muted)">シリコン/ABS/電子部品</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">シリコン成型<br><small style="color:var(--text-muted)">プラチナ硬化/医療グレード/TPE</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">電子部品組込<br><small style="color:var(--text-muted)">モーター/バッテリー/BT</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">品質検査<br><small style="color:var(--text-muted)">耐久/安全性/動作</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">パッケージング</span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-purple" style="padding:8px 14px;font-size:12px;">出荷</span>
+    </div>
+  </div>
+
+  <div class="detail-grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OEM製造拠点</span>
+        <span class="card-badge badge-purple">中国</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>地域</th><th>特徴</th><th>主要企業</th></tr></thead>
+        <tbody>
+          <tr><td class="name">深圳</td><td>IoTバイブレーター、電子部品統合</td><td>WINYI, Lovense（設計）</td></tr>
+          <tr><td class="name">東莞</td><td>シリコン成型、大量生産</td><td>多数のOEM工場</td></tr>
+          <tr><td class="name">日本国内</td><td>高品質ブランド、素材研究</td><td>TENGA, TOMAX</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">安全認証</span>
+        <span class="card-badge badge-green">基準</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>認証</th><th>対象市場</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td class="name">CE</td><td>EU</td><td>製品安全指令準拠</td></tr>
+          <tr><td class="name">RoHS</td><td>EU</td><td>有害物質制限</td></tr>
+          <tr><td class="name">FDA</td><td>米国</td><td>医療グレードシリコン</td></tr>
+          <tr><td class="name">PSE</td><td>日本</td><td>電気安全法準拠</td></tr>
+          <tr><td class="name">ISO 10993</td><td>国際</td><td>生体適合性試験</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">ブランド比較</span>
+        <span class="card-badge badge-gold">主要企業</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>ブランド</th><th>本社</th><th>年間売上</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td class="name">TENGA</td><td>日本</td><td class="val-gold">¥107億</td><td>8,400万個/70ヶ国</td></tr>
+          <tr><td class="name">LC</td><td>日本</td><td class="val-gold">¥70億</td><td>180万会員/女性90%</td></tr>
+          <tr><td class="name">Lovehoney</td><td>英国</td><td class="val-gold">$400M+</td><td>グローバル最大級</td></tr>
+          <tr><td class="name">Lovense</td><td>香港</td><td>非公開</td><td>IoT先駆者</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">日本国内流通チャネル</span>
+      <span class="card-badge badge-purple">流通</span>
+    </div>
+    <div class="flow-chain" style="justify-content:center;padding:8px 0;flex-wrap:wrap;">
+      <span class="flow-node highlight-purple">製造（中国OEM/国内）</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-node highlight-purple">卸業者（NLS等）</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-node">実店舗（信長書店等）</span>
+      <span class="flow-node">EC（NLS通販等）</span>
+      <span class="flow-node">ドン・キホーテ</span>
+      <span class="flow-node">Amazon Japan</span>
+      <span class="flow-node">ブランド直販</span>
+    </div>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>世界市場規模(USD B)</th><th>日本市場</th><th>TENGA売上</th><th>主要トレンド</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td class="val-gold">$15B</td><td>約$0.9B</td><td>約¥40億</td><td>従来型製品中心、EC拡大初期</td></tr>
+        <tr><td class="name">2016</td><td class="val-gold">$18B</td><td>約$1.0B</td><td>約¥45億</td><td>IoT製品登場、Lovense台頭</td></tr>
+        <tr><td class="name">2017</td><td class="val-gold">$20B</td><td>約$1.1B</td><td>約¥50億</td><td>Femtech概念の広がり</td></tr>
+        <tr><td class="name">2018</td><td class="val-gold">$23B</td><td>約$1.2B</td><td class="val-pink">¥70億</td><td>TENGA海外展開加速、Womanizer成長</td></tr>
+        <tr><td class="name">2019</td><td class="val-gold">$27B</td><td>約$1.3B</td><td>約¥80億</td><td>ウェルネスブランディング主流化</td></tr>
+        <tr><td class="name">2020</td><td class="val-gold">$29B</td><td>約$1.4B</td><td>約¥85億</td><td>COVID巣ごもり需要、EC売上急増</td></tr>
+        <tr><td class="name">2021</td><td class="val-gold">$31B</td><td>約$1.5B</td><td>約¥90億</td><td>Lovehoney/Womanizer合併</td></tr>
+        <tr><td class="name">2022</td><td class="val-gold">$33B</td><td>約$1.5B</td><td>約¥95億</td><td>サステナビリティ重視、素材革新</td></tr>
+        <tr><td class="name">2023</td><td class="val-gold">$35B</td><td>約$1.6B</td><td class="val-pink">¥107億</td><td>TENGA YoY 110%、AI連携製品</td></tr>
+        <tr><td class="name">2024</td><td class="val-gold">$37B</td><td class="val-pink">$1.7B</td><td>¥110億+（推定）</td><td>日本$1.7B（アジア最大）、規制緩和議論</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ TAB: クリエイター経済 ============ -->
+<div id="tab-creator" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title cyan-border">クリエイター経済の詳細</div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OnlyFans成長推移</span>
+        <span class="card-badge badge-cyan">成長チャート</span>
+      </div>
+      <div class="chart-box"><canvas id="creatorChart" height="220"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OnlyFans 財務実績（2024年）</span>
+        <span class="card-badge badge-gold">実績</span>
+      </div>
+      <table class="mini-table">
+        <tbody>
+          <tr><td class="name">総売上（GMV）</td><td class="val-gold">$7.22B</td><td style="font-size:10px;color:var(--green);">+9% 前年比</td></tr>
+          <tr><td class="name">純売上（PF取分）</td><td class="val-gold">$1.41B</td><td style="font-size:10px;color:var(--green);">+8%</td></tr>
+          <tr><td class="name">税引前利益</td><td class="val-gold">$684M</td><td style="font-size:10px;color:var(--green);">+4%</td></tr>
+          <tr><td class="name">クリエイターへの支払い</td><td class="val-cyan">$5.80B</td><td style="font-size:10px;color:var(--green);">+9%</td></tr>
+          <tr><td class="name">登録ファン数</td><td class="val-purple">3.05億人</td><td></td></tr>
+          <tr><td class="name">クリエイター数</td><td class="val-cyan">412万人</td><td></td></tr>
+          <tr><td class="name">企業評価額</td><td class="val-pink">$8B</td><td></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;padding:8px;background:var(--bg-card-alt);border-radius:4px;font-size:10px;">
+        <div style="color:var(--text-dim);font-weight:600;margin-bottom:4px;">クリエイター収益分布:</div>
+        <div style="color:var(--text-muted);">
+          平均月収: $131 | 中央値: $150-180/月<br>
+          上位1% = 全収益の<span style="color:var(--pink);font-weight:700;">1/3</span> | 上位10% = 全収益の<span style="color:var(--pink);font-weight:700;">75%</span><br>
+          年収$1M超: 約300名 | 年収$50K超: 約16,000名
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">プラットフォーム比較</span>
+      <span class="card-badge badge-purple">手数料構造</span>
+    </div>
+    <table class="mini-table">
+      <thead><tr><th>プラットフォーム</th><th>PF手数料</th><th>クリエイター取分</th><th>対象地域</th><th>特徴・備考</th></tr></thead>
+      <tbody>
+        <tr><td class="name">OnlyFans</td><td class="val-pink">20%</td><td class="val-green">80%</td><td>グローバル</td><td>最大手、$7.22B GMV、305Mファン</td></tr>
+        <tr><td class="name">myFans</td><td class="val-pink">17.5%</td><td class="val-green">82.5%</td><td>日本</td><td>+ユーザー5%課金、実質22.5%、届出義務化</td></tr>
+        <tr><td class="name">Fansly</td><td class="val-pink">20%</td><td class="val-green">80%</td><td>グローバル</td><td>OF競合、機能面で差別化</td></tr>
+        <tr><td class="name">Fantia</td><td class="val-cyan">10%</td><td class="val-green">90%</td><td>日本</td><td>pixiv系列、同人系に強い</td></tr>
+        <tr><td class="name">Patreon</td><td class="val-cyan">8-12%</td><td class="val-green">88-92%</td><td>グローバル</td><td>NSFW制限あり、一般クリエイター向け</td></tr>
+        <tr><td class="name">FANZA（同人）</td><td class="val-pink">~20%</td><td class="val-green">80%~</td><td>日本</td><td>4,400円以上で卸80%</td></tr>
+        <tr><td class="name">FANZA（動画）</td><td class="val-pink">70-90%</td><td>10-30%</td><td>日本</td><td>大手30%、中小10-20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">収益分配の不均衡</span>
+      <span class="card-badge badge-pink">格差構造</span>
+    </div>
+    <div class="chart-box"><canvas id="creatorDistChart" height="180"></canvas></div>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>OnlyFans GMV</th><th>クリエイター数</th><th>主な出来事</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td>-</td><td>-</td><td>プラットフォーム以前の時代、個人サイト/ブログ中心</td></tr>
+        <tr><td class="name">2016</td><td>微小</td><td>数千人</td><td>OnlyFans設立（英国）、Timothy Stokely創業</td></tr>
+        <tr><td class="name">2017</td><td>微小</td><td>数万人</td><td>成長初期、認知度低い</td></tr>
+        <tr><td class="name">2018</td><td>$0.1B（推定）</td><td>~10万人</td><td>成長加速、セレブ参入開始</td></tr>
+        <tr><td class="name">2019</td><td class="val-gold">$0.27B</td><td>~30万人</td><td>Beyonce歌詞で言及、認知度急上昇</td></tr>
+        <tr><td class="name">2020</td><td class="val-gold">$2.2B</td><td>~100万人</td><td>COVID爆発的成長、失業者のクリエイター流入</td></tr>
+        <tr><td class="name">2021</td><td class="val-pink">$4.79B</td><td class="val-cyan">150万人</td><td>NSFW禁止発表→撤回騒動、GMV急増</td></tr>
+        <tr><td class="name">2022</td><td class="val-pink">$5.55B</td><td class="val-cyan">220万人</td><td>Fansly台頭、プラットフォーム競争激化</td></tr>
+        <tr><td class="name">2023</td><td class="val-pink">$6.63B</td><td class="val-cyan">320万人</td><td>myFans届出義務化、$5.3B評価額</td></tr>
+        <tr><td class="name">2024</td><td class="val-pink">$7.22B</td><td class="val-cyan">412万人</td><td>$8B評価額、$684M利益、D2C主流化</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ TAB: 医薬品 ============ -->
+<div id="tab-pharma" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title green-border">ED治療薬サプライチェーン</div>
+
+  <div class="card" style="margin-bottom:8px;">
+    <div class="card-header">
+      <span class="card-title">サプライチェーンフロー</span>
+      <span class="card-badge badge-green">医薬品</span>
+    </div>
+    <div class="flow-chain" style="justify-content:center;padding:12px 0;flex-wrap:wrap;">
+      <span class="flow-node highlight-green" style="padding:8px 14px;font-size:12px;">原薬(API)製造<br><small style="color:var(--text-muted)">インド/中国</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-green" style="padding:8px 14px;font-size:12px;">国内製剤化<br><small style="color:var(--text-muted)">GMP準拠・8社+先発品</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-green" style="padding:8px 14px;font-size:12px;">医薬品卸<br><small style="color:var(--text-muted)">メディセオ/アルフレッサ等</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-green" style="padding:8px 14px;font-size:12px;">クリニック/オンライン診療</span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node highlight-green" style="padding:8px 14px;font-size:12px;">OTC販売<br><small style="color:var(--text-muted)">2025年~薬局</small></span><span class="flow-arrow" style="font-size:14px;">&rarr;</span>
+      <span class="flow-node" style="padding:8px 14px;font-size:12px;">患者</span>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">主要ED治療薬比較</span>
+        <span class="card-badge badge-green">薬剤</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>薬剤名</th><th>一般名</th><th>開発元</th><th>特許満了</th><th>先発品価格</th><th>GE価格</th></tr></thead>
+        <tbody>
+          <tr><td class="name">バイアグラ</td><td>シルデナフィル</td><td>Pfizer</td><td>2014年5月</td><td>1,500-2,000円/錠</td><td class="val-green">300-500円/錠</td></tr>
+          <tr><td class="name">シアリス</td><td>タダラフィル</td><td>Eli Lilly</td><td>2020年</td><td>2,000-2,500円/錠</td><td class="val-green">500-1,000円/錠</td></tr>
+          <tr><td class="name">レビトラ</td><td>バルデナフィル</td><td>Bayer</td><td>2020年</td><td>2,000-2,500円/錠</td><td class="val-green">500-800円/錠</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;">
+        全て保険適用外（自由診療）。クリニックごとに価格設定が異なる。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">オンラインクリニック成長</span>
+        <span class="card-badge badge-cyan">デジタル診療</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;">
+        <div style="font-weight:600;color:var(--text);margin-bottom:4px;">オンラインED診療の流れ:</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+          <span class="flow-node highlight-cyan">Web問診票提出</span><span class="flow-arrow">&rarr;</span>
+          <span class="flow-node highlight-cyan">オンライン診察</span><span class="flow-arrow">&rarr;</span>
+          <span class="flow-node highlight-cyan">処方箋発行</span><span class="flow-arrow">&rarr;</span>
+          <span class="flow-node highlight-cyan">自宅配送（最短翌日）</span>
+        </div>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>クリニック</th><th>特徴</th></tr></thead>
+        <tbody>
+          <tr><td class="name">DMMオンラインクリニック</td><td>FANZAユーザーベースとのシナジー</td></tr>
+          <tr><td class="name">クリニックフォア</td><td>一般診療からED診療へ展開</td></tr>
+          <tr><td class="name">イースト駅前クリニック</td><td>ED専門、全国展開</td></tr>
+          <tr><td class="name">デジクリ</td><td>デジタル特化、低価格</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;padding:8px;background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(6,182,212,0.06));border:1px solid rgba(16,185,129,0.12);border-radius:6px;">
+        <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px;">2025年 シアリスOTC化</div>
+        <div style="font-size:10px;color:var(--text-muted);line-height:1.5;">
+          薬局で購入可能に（薬剤師の説明条件付）<br>
+          2026年5月以降: オンライン販売も解禁<br>
+          受診ハードル撤廃 &rarr; 潜在患者層の顕在化
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>世界ED薬市場</th><th>日本市場</th><th>主な出来事</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td class="val-gold">$2.0B</td><td>約¥80億</td><td>バイアグラGE普及開始（2014年特許切れ後）</td></tr>
+        <tr><td class="name">2016</td><td class="val-gold">$2.1B</td><td>約¥85億</td><td>ジェネリック8社参入完了、価格競争</td></tr>
+        <tr><td class="name">2017</td><td class="val-gold">$2.2B</td><td>約¥88億</td><td>オンライン診療の議論開始</td></tr>
+        <tr><td class="name">2018</td><td class="val-gold">$2.3B</td><td>約¥90億</td><td>遠隔診療の規制緩和議論</td></tr>
+        <tr><td class="name">2019</td><td class="val-gold">$2.4B</td><td>約¥92億</td><td>オンライン診療サービス登場</td></tr>
+        <tr><td class="name">2020</td><td>$2.3B</td><td>約¥85億</td><td>COVID受診減、ただしオンライン診療急増</td></tr>
+        <tr><td class="name">2021</td><td class="val-gold">$2.5B</td><td>約¥95億</td><td>オンライン診療普及、DMMクリニック開始</td></tr>
+        <tr><td class="name">2022</td><td class="val-gold">$2.6B</td><td>約¥98億</td><td>シアリス/レビトラ特許満了後GE拡大</td></tr>
+        <tr><td class="name">2023</td><td class="val-gold">$2.8B</td><td>約¥100億</td><td>DMMクリニック x FANZA連携強化</td></tr>
+        <tr><td class="name">2024</td><td class="val-pink">$2.9B</td><td>約¥105億</td><td>シアリスOTC承認（2025年販売開始）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ TAB: 法規制・権利 ============ -->
+<div id="tab-legal" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title">法規制・権利フレームワーク</div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">AV出演被害防止・救済法（AV新法, 2022年）</span>
+        <span class="card-badge badge-pink">重要法令</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>規定</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td class="name">契約前説明義務</td><td>出演内容の事前書面説明、契約書の交付必須</td></tr>
+          <tr><td class="name">撮影開始制限</td><td>契約締結から<span class="val-pink">1ヶ月間</span>は撮影不可</td></tr>
+          <tr><td class="name">公表制限</td><td>撮影完了から<span class="val-pink">4ヶ月間</span>は作品公表不可</td></tr>
+          <tr><td class="name">無条件解除権</td><td>年齢を問わず、撮影完了後<span class="val-pink">1年間</span>は無条件で契約解除可能</td></tr>
+          <tr><td class="name">罰則</td><td>違反には罰金・懲役の可能性</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;line-height:1.5;">
+        背景: 成人年齢引下げ（20歳→18歳）に伴う18-19歳保護<br>
+        施行後: 相談103件（2022年6-10月）、出演者100名超がデモで法改正要求<br>
+        影響: 制作期間長期化によるコスト増、中小メーカー経営圧迫
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">風営法: 映像送信型性風俗特殊営業</span>
+        <span class="card-badge badge-pink">届出</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>項目</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td class="name">届出期限</td><td>営業開始<span class="val-pink">10日前</span>までに所轄警察署（生活安全課）</td></tr>
+          <tr><td class="name">必要書類</td><td>開始届出書、住民票/登記簿、営業概要書、誓約書、賃貸借契約書</td></tr>
+          <tr><td class="name">対象範囲</td><td>海外PF利用でも、日本国内で営業する限り届出必須</td></tr>
+          <tr><td class="name">罰則</td><td class="val-pink">6ヶ月以下の懲役 or 100万円以下の罰金 or 併科</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;">
+        2024年7月: myFansが「クリエイター個人単位での届出義務化」を発表
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">倫理審査機関</span>
+        <span class="card-badge badge-purple">審査</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>機関</th><th>正式名称</th><th>審査対象</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td class="name">JCRC</td><td>日本コンテンツ審査センター</td><td>映像ソフト（ビデオ/DVD）、アダルトゲーム</td><td>2016年に3団体統合</td></tr>
+          <tr><td class="name">ソフ倫（EOCS）</td><td>コンピュータソフトウェア倫理機構</td><td>PCゲーム中心</td><td>審査非通過ソフトの流通制限</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-dim);line-height:1.5;">
+        <strong>審査プロセス:</strong> 複数審査員が独立審査 &rarr; 最終判断審査員が映像確認 &rarr; 困難な場合は外部有識者含む協議<br>
+        <strong>核心:</strong> わいせつ物頒布等の罪（刑法175条）回避 = モザイク処理基準が最重要<br>
+        <strong>影響:</strong> 審査不通過 = FANZA等主要PFでの配信不可
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">権利構造</span>
+        <span class="card-badge badge-gold">著作権/肖像権</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>権利</th><th>帰属先</th><th>実務上の扱い</th></tr></thead>
+        <tbody>
+          <tr><td class="name">著作権</td><td class="val-gold">メーカー</td><td>映画の著作物として帰属、出演者には帰属しない</td></tr>
+          <tr><td class="name">著作隣接権</td><td>出演者 &rarr; 契約譲渡</td><td>AV新法の解除権で上書き可能</td></tr>
+          <tr><td class="name">肖像権</td><td class="val-cyan">出演者固有</td><td>契約で使用許諾、解除権行使で復活</td></tr>
+          <tr><td class="name">パブリシティ権</td><td class="val-cyan">出演者固有</td><td>名前・写真の商業利用権利</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;padding:8px;background:var(--bg-card-alt);border-radius:4px;">
+        <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">コンプライアンスコスト</div>
+        <div style="font-size:12px;color:var(--pink);font-weight:800;">売上高の22%</div>
+        <div style="font-size:10px;color:var(--text-muted);">年齢確認、同意記録、審査費用、法務費用、決済規制対応</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>規制変更</th><th>影響</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td>自主規制中心、業界団体による自律的管理</td><td>比較的緩い規制環境、中小メーカー多数参入</td></tr>
+        <tr><td class="name">2016</td><td>モザイク基準の見直し議論、映像倫→JCRC統合開始</td><td>審査機関の統一化、基準の標準化進む</td></tr>
+        <tr><td class="name">2017</td><td>映像倫+東日本CS+全日本CS &rarr; JCRC統合完了</td><td>審査の一元化、業界全体のコンプライアンス意識向上</td></tr>
+        <tr><td class="name">2018</td><td>DMM R18 &rarr; FANZA分社化（コンプライアンス強化）</td><td>プラットフォーム側のコンプラ体制確立</td></tr>
+        <tr><td class="name">2019</td><td>海外PF規制強化（Pornhub等への圧力）</td><td>日本国内PFの相対的優位性向上</td></tr>
+        <tr><td class="name">2020</td><td>VISA/Mastercard規制議論、Pornhubカード停止</td><td class="val-pink">決済インフラの脆弱性が顕在化</td></tr>
+        <tr><td class="name">2021</td><td class="val-pink">Mastercard BRAM施行（10月）</td><td>年齢確認・同意文書化・第三者監査が必須に</td></tr>
+        <tr><td class="name">2022</td><td class="val-pink">AV出演被害防止・救済法施行（6月）</td><td>制作期間長期化、中小メーカー打撃、出演者保護強化</td></tr>
+        <tr><td class="name">2023</td><td>myFans届出義務化、コンプラコスト22%に</td><td>個人クリエイターにも規制波及、零細排除加速</td></tr>
+        <tr><td class="name">2024</td><td>BRAM登録料$500→$950改定（4月）</td><td>決済コスト上昇、代替決済（暗号通貨等）への移行加速</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============ TAB: 決済インフラ ============ -->
+<div id="tab-payment" class="tab-content">
+<div class="tab-section">
+
+  <div class="section-title gold-border">決済インフラ詳細</div>
+
+  <div class="detail-grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">MCCコード</span>
+        <span class="card-badge badge-gold">加盟店分類</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>MCC</th><th>分類</th><th>リスク</th></tr></thead>
+        <tbody>
+          <tr><td class="name">5967</td><td>ダイレクトマーケティング</td><td class="val-pink">高リスク</td></tr>
+          <tr><td class="name">7841</td><td>ビデオレンタル</td><td class="val-pink">高リスク</td></tr>
+          <tr><td class="name">5993</td><td>成人向け製品</td><td class="val-pink">高リスク</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">チャージバック率比較</span>
+        <span class="card-badge badge-pink">リスク指標</span>
+      </div>
+      <table class="mini-table">
+        <tbody>
+          <tr><td>全業界平均</td><td class="val-green">0.60%</td></tr>
+          <tr><td class="name">アダルト業界</td><td class="val-pink">1.5-3.0%</td></tr>
+          <tr><td>許容上限</td><td class="val-gold">1.0%</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);padding:6px;background:var(--bg-card-alt);border-radius:4px;">
+        超過 = アカウント凍結・解約リスク<br>
+        アダルト業界は全業界平均の2.5-5倍
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">手数料比較</span>
+        <span class="card-badge badge-gold">一般 vs アダルト</span>
+      </div>
+      <table class="mini-table">
+        <thead><tr><th>区分</th><th>手数料率</th></tr></thead>
+        <tbody>
+          <tr><td>一般加盟店</td><td class="val-green">1.5-3.5%</td></tr>
+          <tr><td>高リスク加盟店（一般）</td><td class="val-gold">3.49-3.95% + $0.25/件</td></tr>
+          <tr><td class="name">アダルト加盟店</td><td class="val-pink">3.5-6.5%</td></tr>
+          <tr><td class="name">+リザーブ（保証金）</td><td class="val-pink">売上5-10%を6ヶ月保持</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">BRAMプログラム（Mastercard）</span>
+        <span class="card-badge badge-pink">必須要件</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-dim);">
+        <div style="font-weight:600;color:var(--text);margin-bottom:6px;">Business Risk Assessment and Mitigation（2021年10月施行）</div>
+        <ul style="padding-left:16px;line-height:1.8;">
+          <li>全コンテンツの年齢確認（出演者・利用者双方）</li>
+          <li>同意の文書化・記録保持</li>
+          <li>コンテンツレビュープロセスの導入</li>
+          <li>違法コンテンツの報告・削除メカニズム</li>
+          <li>第三者によるコンプライアンス監査</li>
+        </ul>
+        <div style="margin-top:8px;padding:8px;background:var(--bg-card-alt);border-radius:4px;">
+          <div style="font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">2024年4月改定</div>
+          <div style="display:flex;gap:16px;font-size:11px;">
+            <div>登録料: <span style="color:var(--pink);font-weight:700;">$950</span>/プロバイダー（旧$500）</div>
+            <div>取引手数料: <span style="color:var(--pink);font-weight:700;">10c/取引 + 10bps</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">代替決済手段</span>
+        <span class="card-badge badge-cyan">暗号通貨 + その他</span>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px;">暗号通貨の構造的優位性</div>
+      <table class="mini-table">
+        <thead><tr><th>利点</th><th>詳細</th></tr></thead>
+        <tbody>
+          <tr><td class="name">チャージバック不可</td><td>ブロックチェーン確認後は取消不能</td></tr>
+          <tr><td class="name">プライバシー</td><td>利用者の明細に記載されない</td></tr>
+          <tr><td class="name">低手数料</td><td>従来3-10% &rarr; <span class="val-green">1%未満</span></td></tr>
+          <tr><td class="name">グローバル対応</td><td>国際取引の障壁なし</td></tr>
+          <tr><td class="name">検閲耐性</td><td>カード会社の恣意的取引停止回避</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">主要プロバイダー</div>
+      <table class="mini-table">
+        <tbody>
+          <tr><td class="name">NOWPayments</td><td>150+通貨</td><td>KYC不要、即時ペイアウト</td></tr>
+          <tr><td class="name">CoinGate</td><td>70+通貨</td><td>法定通貨も対応</td></tr>
+          <tr><td class="name">BTCPay Server</td><td>BTC中心</td><td>Lightning対応、セルフホスト</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--text-dim);margin-bottom:4px;">日本市場の代替手段</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="flow-node">キャリア決済</span>
+        <span class="flow-node">コンビニ決済</span>
+        <span class="flow-node">DMMポイント</span>
+        <span class="flow-node">PayPay/LINE Pay</span>
+        <span class="flow-node">銀行振込</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="decade-header">過去10年の推移</div>
+  <div class="card">
+    <table class="decade-table">
+      <thead><tr><th>年</th><th>主な決済変化</th><th>チャージバック率推移</th><th>手数料推移</th></tr></thead>
+      <tbody>
+        <tr><td class="name">2015</td><td>クレジットカード中心、決済事業者限定</td><td>~1.5%</td><td>4-5%</td></tr>
+        <tr><td class="name">2016</td><td>決済事業者増加、キャリア決済拡大開始</td><td>~1.5%</td><td>4-5%</td></tr>
+        <tr><td class="name">2017</td><td>コンビニ決済、プリペイド普及</td><td>~1.5%</td><td>4-5%</td></tr>
+        <tr><td class="name">2018</td><td>キャリア決済本格拡大、QR決済登場</td><td>~1.8%</td><td>4-5.5%</td></tr>
+        <tr><td class="name">2019</td><td>暗号通貨対応開始（一部PF）</td><td>~1.8%</td><td>4-5.5%</td></tr>
+        <tr><td class="name">2020</td><td class="val-pink">Pornhub MC/VISA停止事件（12月）</td><td class="val-pink">~2.5%</td><td>5-6%</td></tr>
+        <tr><td class="name">2021</td><td class="val-pink">MC BRAM施行（10月）、登録料$500</td><td>~2.0%</td><td>5-6.5%</td></tr>
+        <tr><td class="name">2022</td><td>登録料引上げ議論、代替決済拡大</td><td>~2.0%</td><td>5-6.5%</td></tr>
+        <tr><td class="name">2023</td><td>代替決済（暗号/キャリア）拡大加速</td><td>~1.8%</td><td>5-6.5%</td></tr>
+        <tr><td class="name">2024</td><td class="val-pink">BRAM $950/プロバイダー改定、暗号通貨主流化</td><td>~1.5%</td><td>3.5-6.5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
 
 <!-- FOOTER -->
 <div class="footer">
-  Adult Industry Dashboard 2025 &mdash; Research & Analysis | Data compiled from public sources
+  アダルト産業ダッシュボード 2025 &mdash; 調査・分析 | 公開情報に基づく
 </div>
 
 <script>
+// Tab switching
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.target.classList.add('active');
+  // Initialize charts for this tab if needed
+  if (tabId === 'creator' && !window._creatorChartsInit) {
+    initCreatorCharts();
+    window._creatorChartsInit = true;
+  }
+}
+
 // Chart defaults
 Chart.defaults.color = '#8888a0';
 Chart.defaults.font.family = "'Inter','Noto Sans JP',system-ui,sans-serif";
@@ -976,30 +1262,25 @@ Chart.defaults.plugins.legend.labels.padding = 10;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
 
-const noDataLabels = { plugins: { datalabels: { display: false } } };
-
-// 1. Revenue Comparison (Horizontal Bar)
+// 1. Revenue Chart
 new Chart(document.getElementById('revenueChart'), {
   type: 'bar',
   data: {
-    labels: ['OnlyFans ($7.2B)', 'DMM/FANZA', 'Pornhub/Aylo', 'TENGA', 'LC Love Cosmetic', 'Lovehoney Gr.', 'myFans (est.)'],
+    labels: ['OnlyFans ($7.2B)', 'DMM/FANZA', 'Pornhub/Aylo', 'TENGA', 'LCラブコスメ', 'Lovehoney Gr.', 'myFans (推定)'],
     datasets: [{
       data: [10800, 3870, 610, 107, 70, 600, 50],
       backgroundColor: ['#a855f7','#ff3366','#7b61ff','#06b6d4','#10b981','#f59e0b','#ff6b9d'],
-      borderRadius: 4,
-      barThickness: 20
+      borderRadius: 4, barThickness: 20
     }]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: {
         callbacks: {
           label: function(ctx) {
-            const v = ctx.raw;
+            var v = ctx.raw;
             if (v >= 1000) return Math.round(v/10) + '億円 ($' + (v/150).toFixed(1) + 'B)';
             return v + '億円';
           }
@@ -1007,190 +1288,132 @@ new Chart(document.getElementById('revenueChart'), {
       }
     },
     scales: {
-      x: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        border: { display: false },
-        ticks: {
-          callback: function(v) {
-            if (v >= 1000) return Math.round(v/10) + '億';
-            return v + '億';
-          },
-          font: { size: 10 }
-        }
-      },
-      y: {
-        grid: { display: false },
-        border: { display: false },
-        ticks: { font: { size: 11 } }
-      }
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+        ticks: { callback: function(v) { return v >= 1000 ? Math.round(v/10) + '億' : v + '億'; }, font: { size: 10 } } },
+      y: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 11 } } }
     }
   }
 });
 
-// 2. Barrier Radar Chart
+// 2. Barrier Radar
 new Chart(document.getElementById('barrierChart'), {
   type: 'radar',
   data: {
     labels: ['決済制限', '広告禁止', '法規制', 'SEO制限', 'スティグマ', 'PFリスク'],
     datasets: [
-      {
-        label: '影響度',
-        data: [95, 90, 80, 75, 85, 70],
-        backgroundColor: 'rgba(255,51,102,0.12)',
-        borderColor: '#ff3366',
-        borderWidth: 2,
-        pointBackgroundColor: '#ff3366',
-        pointRadius: 3
-      },
-      {
-        label: '克服難易度',
-        data: [85, 95, 70, 60, 90, 65],
-        backgroundColor: 'rgba(168,85,247,0.12)',
-        borderColor: '#a855f7',
-        borderWidth: 2,
-        pointBackgroundColor: '#a855f7',
-        pointRadius: 3
-      }
+      { label: '影響度', data: [95, 90, 80, 75, 85, 70],
+        backgroundColor: 'rgba(255,51,102,0.12)', borderColor: '#ff3366', borderWidth: 2,
+        pointBackgroundColor: '#ff3366', pointRadius: 3 },
+      { label: '克服難易度', data: [85, 95, 70, 60, 90, 65],
+        backgroundColor: 'rgba(168,85,247,0.12)', borderColor: '#a855f7', borderWidth: 2,
+        pointBackgroundColor: '#a855f7', pointRadius: 3 }
     ]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
-    scales: {
-      r: {
-        beginAtZero: true,
-        max: 100,
-        grid: { color: 'rgba(255,255,255,0.05)' },
-        angleLines: { color: 'rgba(255,255,255,0.05)' },
-        pointLabels: { color: '#8888a0', font: { size: 10 } },
-        ticks: { display: false }
-      }
-    }
+    scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' },
+      angleLines: { color: 'rgba(255,255,255,0.05)' },
+      pointLabels: { color: '#8888a0', font: { size: 10 } }, ticks: { display: false } } }
   }
 });
 
-// 3. Take Rate Bar Chart
+// 3. Take Rate Chart
 new Chart(document.getElementById('takeRateChart'), {
   type: 'bar',
   data: {
     labels: ['FANZA動画', 'myFans実質', 'OnlyFans', 'Fansly', 'FANZA同人', 'Fantia', 'Patreon'],
-    datasets: [{
-      label: 'Take Rate %',
-      data: [80, 22.5, 20, 20, 20, 10, 10],
+    datasets: [{ label: '手数料 %', data: [80, 22.5, 20, 20, 20, 10, 10],
       backgroundColor: ['#ff3366','#ff6b9d','#a855f7','#7b61ff','#ff3366','#10b981','#06b6d4'],
-      borderRadius: 3,
-      barThickness: 14
-    }]
+      borderRadius: 3, barThickness: 14 }]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ctx.raw + '%' } }
-    },
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw + '%' } } },
     scales: {
-      x: {
-        grid: { display: false },
-        border: { display: false },
-        ticks: { font: { size: 9 }, maxRotation: 45 }
-      },
-      y: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        border: { display: false },
-        ticks: { callback: v => v + '%', font: { size: 10 } },
-        max: 100
-      }
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 }, maxRotation: 45 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+        ticks: { callback: v => v + '%', font: { size: 10 } }, max: 100 }
     }
   }
 });
 
-// 4. Creator Economy Growth (Line)
-new Chart(document.getElementById('creatorChart'), {
-  type: 'line',
-  data: {
-    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-    datasets: [
-      {
-        label: 'GMV ($B)',
-        data: [0.2, 1.2, 3.2, 4.8, 6.6, 7.22],
-        borderColor: '#ff3366',
-        backgroundColor: 'rgba(255,51,102,0.08)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 3,
-        pointBackgroundColor: '#ff3366',
-        borderWidth: 2
-      },
-      {
-        label: 'Creators (M)',
-        data: [0.1, 0.5, 1.5, 2.2, 3.2, 4.12],
-        borderColor: '#06b6d4',
-        backgroundColor: 'rgba(6,182,212,0.08)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 3,
-        pointBackgroundColor: '#06b6d4',
-        borderWidth: 2,
-        yAxisID: 'y1'
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
-    scales: {
-      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 } } },
-      y: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        border: { display: false },
-        ticks: { callback: v => '$' + v + 'B', font: { size: 10 } }
-      },
-      y1: {
-        position: 'right',
-        grid: { display: false },
-        border: { display: false },
-        ticks: { callback: v => v + 'M', font: { size: 10 } }
-      }
-    }
-  }
-});
-
-// 5. Recession Resistance (Horizontal Bar)
+// 4. Recession Chart
 new Chart(document.getElementById('recessionChart'), {
   type: 'bar',
   data: {
-    labels: ['Digital Free', 'Digital Paid', 'Creator PF', 'Sex Toys', 'ED Pharma', 'Physical Svc', 'Live/Store'],
-    datasets: [{
-      data: [5, 4, 4, 4, 5, 2, 2],
+    labels: ['無料デジタル', '有料配信', 'クリエイターPF', '性玩具', 'ED治療薬', '風俗サービス', 'ライブ/店舗'],
+    datasets: [{ data: [5, 4, 4, 4, 5, 2, 2],
       backgroundColor: ['#10b981','#10b981','#06b6d4','#06b6d4','#10b981','#ef4444','#ef4444'],
-      borderRadius: 3,
-      barThickness: 10
-    }]
+      borderRadius: 3, barThickness: 10 }]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        border: { display: false },
-        max: 5,
-        ticks: { callback: v => v + '/5', font: { size: 9 } }
-      },
-      y: {
-        grid: { display: false },
-        border: { display: false },
-        ticks: { font: { size: 9 } }
-      }
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+        max: 5, ticks: { callback: v => v + '/5', font: { size: 9 } } },
+      y: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 } } }
     }
   }
 });
+
+// Creator tab charts (lazy init)
+function initCreatorCharts() {
+  // Creator Growth Line
+  new Chart(document.getElementById('creatorChart'), {
+    type: 'line',
+    data: {
+      labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+      datasets: [
+        { label: 'GMV ($B)', data: [0.27, 2.2, 4.79, 5.55, 6.63, 7.22],
+          borderColor: '#ff3366', backgroundColor: 'rgba(255,51,102,0.08)',
+          fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#ff3366', borderWidth: 2 },
+        { label: 'クリエイター数 (M)', data: [0.3, 1.0, 1.5, 2.2, 3.2, 4.12],
+          borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)',
+          fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#06b6d4', borderWidth: 2, yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+          ticks: { callback: v => '$' + v + 'B', font: { size: 10 } } },
+        y1: { position: 'right', grid: { display: false }, border: { display: false },
+          ticks: { callback: v => v + 'M', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // Creator Distribution
+  new Chart(document.getElementById('creatorDistChart'), {
+    type: 'bar',
+    data: {
+      labels: ['上位1%', '上位2-10%', '上位11-50%', '下位50%'],
+      datasets: [{
+        label: '収益シェア',
+        data: [33, 42, 18, 7],
+        backgroundColor: ['#ff3366', '#a855f7', '#06b6d4', '#555568'],
+        borderRadius: 4, barThickness: 30
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + '% の総収益' } }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+          ticks: { callback: v => v + '%', font: { size: 10 } }, max: 50 }
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>
